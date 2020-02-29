@@ -118,5 +118,8 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 AUTOAPI = {
-    "forum.comment": {"viewset_class": "forum.views.CommentViewSet"},
+    "forum.comment": {
+        "viewset_class": "forum.views.CommentViewSet",
+        "url_prefix": "comments",
+    },
 }
