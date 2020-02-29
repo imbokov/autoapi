@@ -10,7 +10,7 @@ class Author(Model):
 
 
 class Book(Model):
-    author = ForeignKey(Author, on_delete=PROTECT)
+    author = ForeignKey(Author, on_delete=PROTECT, related_name="books")
 
     title = CharField(max_length=255)
 

@@ -2,7 +2,7 @@ from django.db.models import *
 
 
 class Post(Model):
-    user = ForeignKey("auth.User", on_delete=PROTECT)
+    user = ForeignKey("auth.User", on_delete=PROTECT, related_name="posts")
 
     title = CharField(max_length=255)
     text = TextField()
@@ -12,8 +12,8 @@ class Post(Model):
 
 
 class Comment(Model):
-    user = ForeignKey("auth.User", on_delete=PROTECT)
-    post = ForeignKey(Post, on_delete=PROTECT)
+    user = ForeignKey("auth.User", on_delete=PROTECT, related_name="comments")
+    post = ForeignKey(Post, on_delete=PROTECT, related_name="comments")
 
     text = TextField()
 

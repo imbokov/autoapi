@@ -2,7 +2,8 @@ from typing import List, Type
 
 from django.apps import apps
 from django.db.models import Model
-from rest_framework.filters import OrderingFilter, SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.routers import BaseRouter, SimpleRouter
 from rest_framework.serializers import ModelSerializer, Serializer
@@ -12,10 +13,10 @@ from .conf import autoapi_settings
 from .constants import (
     ROUTER_KEY,
     SERIALIZER_CLASS_KEY,
-    VIEWSET_CLASS_KEY,
     URL_PREFIX_KEY,
+    VIEWSET_CLASS_KEY,
 )
-from .utils import get_model_key
+from .utils import get_field_names, get_model_key
 
 router: BaseRouter = autoapi_settings.get(ROUTER_KEY, SimpleRouter())
 
@@ -45,7 +46,8 @@ for model in models:
             queryset = opts.default_manager.all()
             serializer_class = serializer_class
             pagination_class = LimitOffsetPagination
-            filter_backends = [OrderingFilter, SearchFilter]
+            filter_backends = [DjangoFilterBackend, OrderingFilter]
+            filterset_fields = get_field_names(opts)
 
         viewset_class = AutoViewSet
 
